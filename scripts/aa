@@ -5220,6 +5220,6 @@ func CodeToName(code string) string {
         "308700": "테크엔",
         "331660": "한국미라클피플사",
     }
-    name, _ := codeMap["code"]
+    name, _ := codeMap[code]
     return name
 }

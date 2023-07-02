@@ -59,13 +59,10 @@ class KrxHTMLParser(HTMLParser):
 
         if self.tdCount == 1:
             self.name = data.replace("&", "n").replace("-", "_").replace(" ", "_").replace(".", "")
-           # print("name :", data)
         if self.tdCount == 2:
             self.code = data
-           # print("Code[" + data + "]")
 
 class KrxCodeGenerator(object):
-
 
   def Generate(self):
     URL = 'http://kind.krx.co.kr/corpgeneral/corpList.do?method=download'
@@ -75,7 +72,7 @@ class KrxCodeGenerator(object):
     parser = KrxHTMLParser()
     parser.feed(response.text)
 
-    # Build a name - code dictionary to remove duplicates.
+    # Build a {name:code} dictionary to remove duplicates.
     nameCodeMap = {}
     for x in parser.listOfCode:
         nameCodeMap[x[0]] = x[1]
@@ -87,19 +84,18 @@ class KrxCodeGenerator(object):
     for code, name in nameCodeMap.items():
       if name == "":
          continue
-      c.Append("  Code" + code + " = \"" + name +"\"")
+      c.Append("\tCode" + code + " = \"" + name +"\"")
     c.Append(")")
 
     c.Append("")
     c.Append("func CodeToName(code string) string {")
-    c.Append("    var codeMap = map[string]string{")
+    c.Append("\tvar codeMap = map[string]string{")
     for code, name in nameCodeMap.items():
       if name == "":
          continue
-      c.Append("        \"" + name + "\": \"" + code + "\",")
-    c.Append("    }")
-    c.Append("    name, _ := codeMap[\"code\"]")
-    c.Append("    return name")
+      c.Append("\t\t\"" + name + "\": \"" + code + "\",")
+    c.Append("\t}")
+    c.Append("\treturn codeMap[code]")
     c.Append("}")
 
     print(c.Render())
