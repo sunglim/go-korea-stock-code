@@ -2,6 +2,8 @@
 
 go-korea-stock-code provides a list of stock symbols registered in KRX(Korea Exchange)
 
+Package managed: https://pkg.go.dev/github.com/sunglim/go-korea-stock-code/code
+
 # How to use
 
 ```go
