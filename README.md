@@ -1,3 +1,5 @@
+[![create-pull-request](https://github.com/sunglim/go-korea-stock-code/actions/workflows/create-pull-request.yml/badge.svg)](https://github.com/sunglim/go-korea-stock-code/actions/workflows/create-pull-request.yml)
+
 # go-korea-stock-code
 
 go-korea-stock-code provides a list of stock symbols registered in KRX(Korea Exchange)
