@@ -4,6 +4,7 @@
 import os
 import requests
 from html.parser import HTMLParser
+from sortedcontainers import SortedDict
 
 class Code(object):
   """A convenience object for constructing code.
@@ -73,15 +74,15 @@ class KrxCodeGenerator(object):
     parser.feed(response.text)
 
     # Build a {name:code} dictionary to remove duplicates.
-    nameCodeMap = {}
+    nameCodeDict = SortedDict()
     for x in parser.listOfCode:
-        nameCodeMap[x[0]] = x[1]
+      nameCodeDict[x[0]] = x[1]
 
     c = Code()
     c.Append("package koreaexchange")
     c.Append("")
     c.Append("const (")
-    for code, name in nameCodeMap.items():
+    for code, name in nameCodeDict.items():
       if name == "":
          continue
       c.Append("\tCode" + code + " = \"" + name +"\"")
@@ -90,7 +91,7 @@ class KrxCodeGenerator(object):
     c.Append("")
     c.Append("func CodeToName(code string) string {")
     c.Append("\tvar codeMap = map[string]string{")
-    for code, name in nameCodeMap.items():
+    for code, name in nameCodeDict.items():
       if name == "":
          continue
       c.Append("\t\t\"" + name + "\": \"" + code + "\",")
